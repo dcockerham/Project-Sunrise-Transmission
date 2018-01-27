@@ -20,11 +20,6 @@ public class LightBehavior : MonoBehaviour {
 		lightBeam = GetComponent<LineRenderer> ();
 		lightBeam.widthMultiplier = beamWidth;
 	}
-
-	void OnDestroy () 
-	{
-
-	}
 	
 	// Update is called once per frame
 	void Update () 
@@ -33,7 +28,6 @@ public class LightBehavior : MonoBehaviour {
 		Vector3 beamDir = !useReflection ? (Quaternion.Euler(angleOffset) * lightSource.transform.up).normalized : reflectionAngle;
 		Vector3 firstPoint = lightSource.transform.position; //might get rid of this Vector3, just get it from lineRenderer
 		Vector3 lastPoint = lightSource.transform.position + beamDir * beamLength;
-		Vector3 beamVec = lastPoint - firstPoint;
 
 		// check collisions with all obstacles
 		List<GameObject> collisionList = new List<GameObject>();
@@ -73,10 +67,9 @@ public class LightBehavior : MonoBehaviour {
 			MirrorBehavior closestMirror = closestCollision.GetComponent<MirrorBehavior> ();
 			if (closestMirror) 
 			{
-				//closestMirror.lightsActive = true;
 				closestMirror.HitByLight (firstPoint);
 			}
-		}/**/
+		}
 
 		lightBeam.SetPosition (0, firstPoint);
 		lightBeam.SetPosition (1, lastPoint);
